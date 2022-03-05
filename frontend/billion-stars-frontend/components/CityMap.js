@@ -32,7 +32,7 @@ export default function CityMap({ latitude, longitude }) {
         <div
           ref={mapContainer}
           className="map-container"
-          style={{ height: "50vh" }}
+          style={{ height: "100vh" }}
         />
       </div>
     </div>
