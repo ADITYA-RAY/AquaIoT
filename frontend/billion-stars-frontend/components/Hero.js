@@ -3,7 +3,10 @@ import Link from "next/link";
 /* This example requires Tailwind CSS v2.0+ */
 export default function Hero() {
   return (
-    <div className="relative bg-gradient-to-r from-[#0f172a] to-[#112a64] overflow-hidden">
+    <div
+      className="relative bg-gradient-to-r from-[#0f172a] to-[#112a64] overflow-hidden"
+      style={{ minHeight: "100vh" }}
+    >
       <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:static">
           <div className="sm:max-w-lg">
