@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from "react";
+import Link from "next/link";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 
@@ -14,6 +15,12 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const handleClick = (name) => {
+    for (let i = 0; i < navigation.length; i++) {
+      if (navigation[i].name === name) navigation[i].current = true;
+      else navigation[i].current = false;
+    }
+  };
   return (
     <Disclosure
       as="nav"
@@ -50,19 +57,23 @@ export default function Navbar() {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <div
+                        onClick={() => handleClick(item.name)}
                         key={item.name}
-                        href={item.href}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
-                        aria-current={item.current ? "page" : undefined}
                       >
-                        {item.name}
-                      </a>
+                        <Link
+                          href={item.href}
+                          aria-current={item.current ? "page" : undefined}
+                        >
+                          {item.name}
+                        </Link>
+                      </div>
                     ))}
                   </div>
                 </div>
