@@ -1,7 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
-import Link from "next/link";
 import { useState } from "react";
-import axios from "axios";
+import { useRouter } from "next/router";
+import api from "../api";
 
 export default function Verification() {
   const [email, setEmail] = useState("");
@@ -12,6 +12,7 @@ export default function Verification() {
   const [five, setFive] = useState("");
   const [six, setSix] = useState("");
 
+  const router = useRouter();
   const verify = (e) => {
     e.preventDefault();
     const data = {
@@ -19,10 +20,11 @@ export default function Verification() {
       otp: one + two + three + four + five + six,
     };
 
-    axios
-      .post("https://billionstars.herokuapp.com/api/users/verifyotp/", data)
+    api
+      .post("users/verifyotp/", data)
       .then((res) => {
         console.log(res.data);
+        router.push("/dashboard");
       })
       .catch((err) => console.log(err.response));
   };
@@ -61,21 +63,21 @@ export default function Verification() {
                 }}
               />
             </div>
-            <div class="h-screen px-3">
-              <div class="container mx-auto">
-                <div class="max-w-sm mx-auto md:max-w-lg">
-                  <div class="w-full">
-                    <div class="bg-transparent  rounded text-center">
-                      <div class="flex flex-col mt-4 text-white">
+            <div className="h-screen px-3">
+              <div className="container mx-auto">
+                <div className="max-w-sm mx-auto md:max-w-lg">
+                  <div className="w-full">
+                    <div className="bg-transparent  rounded text-center">
+                      <div className="flex flex-col mt-4 text-white">
                         <span>Enter the OTP you received at</span>
-                        <span class="font-bold">+91 ******876</span>
+                        <span className="font-bold">+91 ******876</span>
                       </div>
                       <div
                         id="otp"
-                        class="flex flex-row justify-center text-center px-2 mt-5"
+                        className="flex flex-row justify-center text-center px-2 mt-5"
                       >
                         <input
-                          class="m-2 border h-10 w-10 text-center form-control rounded"
+                          className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="first"
                           maxlength="1"
@@ -84,7 +86,7 @@ export default function Verification() {
                           }}
                         />
                         <input
-                          class="m-2 border h-10 w-10 text-center form-control rounded"
+                          className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="second"
                           maxlength="1"
@@ -93,7 +95,7 @@ export default function Verification() {
                           }}
                         />
                         <input
-                          class="m-2 border h-10 w-10 text-center form-control rounded"
+                          className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="third"
                           maxlength="1"
@@ -102,7 +104,7 @@ export default function Verification() {
                           }}
                         />
                         <input
-                          class="m-2 border h-10 w-10 text-center form-control rounded"
+                          className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="fourth"
                           maxlength="1"
@@ -111,7 +113,7 @@ export default function Verification() {
                           }}
                         />
                         <input
-                          class="m-2 border h-10 w-10 text-center form-control rounded"
+                          className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="fifth"
                           maxlength="1"
@@ -120,7 +122,7 @@ export default function Verification() {
                           }}
                         />
                         <input
-                          class="m-2 border h-10 w-10 text-center form-control rounded"
+                          className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="sixth"
                           maxlength="1"
@@ -141,10 +143,10 @@ export default function Verification() {
                         </span>
                         Sign Up
                       </button>
-                      <div class="flex justify-center text-center mt-5">
-                        <a class="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
-                          <span class="font-bold">Resend OTP</span>
-                          <i class="bx bx-caret-right ml-1"></i>
+                      <div className="flex justify-center text-center mt-5">
+                        <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
+                          <span className="font-bold">Resend OTP</span>
+                          <i className="bx bx-caret-right ml-1"></i>
                         </a>
                       </div>
                     </div>

@@ -1,7 +1,8 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useState } from "react";
-import axios from "axios";
+import { useRouter } from "next/router";
+import api from "../api";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -9,7 +10,12 @@ export default function Register() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [companyid, setCompanyid] = useState("default");
+  const router = useRouter();
   const handleRegister = (e) => {
+    if (!email || !password || !firstname || !lastname) {
+      alert("All fields must be filled");
+      return;
+    }
     e.preventDefault();
     const data = {
       first_name: firstname,
@@ -18,10 +24,11 @@ export default function Register() {
       password: password,
     };
 
-    axios
-      .post("https://billionstars.herokuapp.com/api/users/register/", data)
+    api
+      .post("users/register/", data)
       .then((res) => {
         console.log(res.data);
+        router.push("/verification");
       })
       .catch((err) => console.log(err.response));
   };
