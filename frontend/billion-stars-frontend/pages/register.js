@@ -1,6 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,22 @@ export default function Register() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [companyid, setCompanyid] = useState("default");
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const data = {
+      first_name: firstname,
+      last_name: lastname,
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("https://billionstars.herokuapp.com/api/users/register/", data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err.response));
+  };
 
   return (
     <>
@@ -26,7 +43,7 @@ export default function Register() {
               Signup as a maintainer
             </h2>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleRegister}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -68,7 +85,7 @@ export default function Register() {
                   First Name
                 </label>
                 <input
-                  id="email-address"
+                  id="first-name"
                   name="text"
                   type="text"
                   autoComplete="text"
@@ -85,7 +102,7 @@ export default function Register() {
                   Last Name
                 </label>
                 <input
-                  id="email-address"
+                  id="last-name"
                   name="text"
                   type="text"
                   autoComplete="text"
@@ -97,7 +114,7 @@ export default function Register() {
                   }}
                 />
               </div>
-              <div>
+              {/* <div>
                 <label htmlFor="company ID" className="sr-only">
                   Company ID
                 </label>
@@ -113,7 +130,7 @@ export default function Register() {
                     setCompanyid(e.target.value);
                   }}
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="flex items-center justify-between">
