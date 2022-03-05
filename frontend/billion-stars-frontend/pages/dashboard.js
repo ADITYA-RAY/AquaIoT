@@ -26,6 +26,12 @@ const sensors = [
 
 export default function dashboard() {
   const [toggleForm, setToggleForm] = useState(false);
+  const [newSensorData, setNewSensorData] = useState({
+    id: "",
+    city: "",
+    location: "",
+    installationDate: "",
+  });
   const handleClick = () => setToggleForm(!toggleForm);
   return (
     <div className="flex flex-col">
@@ -103,7 +109,7 @@ export default function dashboard() {
           </div>
         </div>
       </div>
-      {toggleForm && <Form />}
+      {toggleForm && <Form setData={setNewSensorData} data={newSensorData} />}
       <div className="p-10">
         <button
           onClick={handleClick}
