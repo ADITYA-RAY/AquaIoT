@@ -7,6 +7,12 @@ const Form = ({ data, setData }) => {
   };
   return (
     <div className="mt-5 md:mt-0 md:col-span-2">
+      <p
+        className="font-bold text-gray text-[1.6rem] py-2 px-2 mb-5"
+        style={{ borderLeft: "4px solid purple" }}
+      >
+        Fill Sensor Information
+      </p>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="shadow overflow-hidden sm:rounded-md">
           <div className="px-4 py-5 bg-white sm:p-6">
@@ -24,6 +30,25 @@ const Form = ({ data, setData }) => {
                   value={data.id}
                   onChange={(e) => setData({ ...data, id: e.target.value })}
                   id="SensorId"
+                  autoComplete="off"
+                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                <label
+                  htmlFor="Installation-date"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Installation Date
+                </label>
+                <input
+                  type="date"
+                  name="Installation-date"
+                  value={data.installationDate}
+                  onChange={(e) =>
+                    setData({ ...data, installationDate: e.target.value })
+                  }
+                  id="Installation-date"
                   autoComplete="off"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
@@ -61,26 +86,6 @@ const Form = ({ data, setData }) => {
                     setData({ ...data, location: e.target.value })
                   }
                   id="location"
-                  autoComplete="off"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                />
-              </div>
-
-              <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                <label
-                  htmlFor="Installation-date"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Installation Date
-                </label>
-                <input
-                  type="date"
-                  name="Installation-date"
-                  value={data.installationDate}
-                  onChange={(e) =>
-                    setData({ ...data, installationDate: e.target.value })
-                  }
-                  id="Installation-date"
                   autoComplete="off"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
