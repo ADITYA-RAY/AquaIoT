@@ -19,7 +19,7 @@ Thus, we need some sort of modernised solution that can be easily scaled across 
 ## **AquaIoT**
 AquaIoT is a real time water quality assessment and broadcasting system <br> <br>
 
-AquaIoT is a system that can be used by individuals for tracking the composition of water bodies across the country. The best feature of this system is that it publicizes the entire data regarding the water bodies. The data being in the public domain is always good as it raises the awareness among the people of our nation. 
+AquaIoT is a system that can be used by individuals for tracking the composition of water bodies across the country. The best feature of this system is that it publicizes the entire data regarding the water bodies. The data being in the public domain is always good, as it raises awareness among the people of our nation. 
 
 The IoT kit can be used to measure various different polluting parameters inside the water bodies such as pH, TDS (Total Dissolved Solids), temperature, harmful chemical compounds such as fluorides, hydrocarbons and poisonous metals such as arsenic, mercury, etc. Regular measurement of these quantities will ensure that their levels do not rise above their permissible values.
 
