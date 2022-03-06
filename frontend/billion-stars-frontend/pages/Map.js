@@ -21,6 +21,10 @@ const cities = [
     id: 3,
     name: "Prayagraj",
   },
+  {
+    id: 4,
+    name: "Hyderabad",
+  },
 ];
 
 function classNames(...classes) {
