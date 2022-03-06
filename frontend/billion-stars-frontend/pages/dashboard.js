@@ -1,7 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
 
 /* This example requires Tailwind CSS v2.0+ */
+// useEffect(() => {
+//   api
+//     .get("sensor/registersensor/", data)
+//     .then((res) => {
+//       console.log(res.data);
+//       if (res.status === 200) {
+//         alert("Sensor added sucessfully");
+//       }
+//     })
+//     .catch((err) => console.log(err.response));
+// }, []);
+
 const sensors = [
   {
     id: "1e4asd7asdbcc8",

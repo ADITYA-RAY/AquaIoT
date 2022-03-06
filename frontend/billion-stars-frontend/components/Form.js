@@ -1,9 +1,17 @@
 import React from "react";
-
+import api from "../api";
 const Form = ({ data, setData }) => {
   const handleClick = () => {
     setData({ id: "", city: "", location: "", installationDate: "" });
-    console.log(data);
+    api
+      .post("sensor/registersensor/", data)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          alert("Sensor added sucessfully");
+        }
+      })
+      .catch((err) => console.log(err.response));
   };
   return (
     <div className="mt-5 md:mt-0 md:col-span-2">
