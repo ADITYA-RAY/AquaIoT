@@ -2,7 +2,13 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import styles from "../styles/Map.module.css";
 
-export default function CityMap({ latitude, longitude, sensorObj }) {
+export default function CityMap({
+  latitude,
+  longitude,
+  sensorObj,
+  setGraphData,
+  graphData,
+}) {
   mapboxgl.accessToken =
     "pk.eyJ1IjoicHJhbWlsMDEiLCJhIjoiY2wwY3MzaGxrMDI2aDNqcDlxcTY2ZHhjZCJ9.tBxkMn02CfdKVlWFVWm51Q";
   const mapContainer = useRef(null);
@@ -33,6 +39,10 @@ export default function CityMap({ latitude, longitude, sensorObj }) {
         .setLngLat([lan, lat])
         .setPopup(new mapboxgl.Popup().setHTML(`<h1>${showData}</h1>`))
         .addTo(map.current);
+      marker1.getElement().addEventListener("click", () => {
+        let temp = sensorObj[mark];
+        setGraphData(temp);
+      });
     }
   }, [latitude, longitude, sensorObj]);
 

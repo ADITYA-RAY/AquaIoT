@@ -4,6 +4,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
 import CityMap from "../components/CityMap";
+import Graph from "../components/Graph";
 
 import axios from "axios";
 import api from "../api";
@@ -35,6 +36,7 @@ export default function Map() {
   const [selected, setSelected] = useState(cities[0]);
   const [cityInfo, setCityInfo] = useState(null);
   const [sensorObj, setSensorObj] = useState(null);
+  const [graphData, setGraphData] = useState(null);
 
   const handleClick = () => {
     //latitude longitude
@@ -214,6 +216,8 @@ export default function Map() {
                             latitude={cityInfo.lat}
                             longitude={cityInfo.lon}
                             sensorObj={sensorObj}
+                            graphData={graphData}
+                            setGraphData={setGraphData}
                           />
                         )}
                       </div>
@@ -224,6 +228,7 @@ export default function Map() {
             </Listbox>
           </div>
         </div>
+        {graphData && <Graph graphData={graphData} />}
       </div>
     </>
   );
