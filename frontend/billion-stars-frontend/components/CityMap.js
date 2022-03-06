@@ -13,7 +13,7 @@ export default function CityMap({ latitude, longitude, sensorObj }) {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [longitude, latitude],
-      zoom: 12,
+      zoom: 10,
     });
     console.log(sensorObj);
     if (sensorObj === null) return;
