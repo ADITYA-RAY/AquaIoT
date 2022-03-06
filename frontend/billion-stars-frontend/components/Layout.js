@@ -4,7 +4,7 @@ function Layout({ children }) {
   return (
     <>
       <Head>
-        <title>Dolphin</title>
+        <title>Billion Stars</title>
         <link rel="shortcut icon" href="/favicon.png" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

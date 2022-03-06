@@ -6,6 +6,7 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import CityMap from "../components/CityMap";
 
 import axios from "axios";
+import api from "../api";
 
 const cities = [
   {
@@ -22,15 +23,7 @@ const cities = [
   },
   {
     id: 4,
-    name: "Amsterdam",
-  },
-  {
-    id: 5,
-    name: "Berlin",
-  },
-  {
-    id: 6,
-    name: "Delhi",
+    name: "Hyderabad",
   },
 ];
 
@@ -39,16 +32,27 @@ function classNames(...classes) {
 }
 
 export default function Map() {
-  const [selected, setSelected] = useState(cities[3]);
+  const [selected, setSelected] = useState(cities[0]);
   const [cityInfo, setCityInfo] = useState(null);
+  const [sensorObj, setSensorObj] = useState(null);
 
   const handleClick = () => {
+    //latitude longitude
     axios
       .get(
         `http://api.openweathermap.org/geo/1.0/direct?q=${selected.name}&limit=1&appid=61de9771b304e9d9cc581202de657234`
       )
       .then((res) => setCityInfo(res.data[0]))
       .catch((err) => console.log(err.response));
+
+    //sensor data
+    api
+      .get(`sensors/getsensordata/?city=${selected.name}`)
+      .then((res) => {
+        console.log(res.data);
+        if (!("status" in res.data)) setSensorObj(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -146,9 +150,62 @@ export default function Map() {
                           fetch sensors
                         </button>
                       </div>
-                      <p className="text-center text-white pt-10">
-                        "Sensor information will be shown here"
+                      <br />
+                      <p className="text-white font-medium text-[1.5rem]">
+                        Index
                       </p>
+                      <br />
+                      <table class="table-auto text-white">
+                        <tbody>
+                          <tr>
+                            <td style={{ width: "50px" }}>
+                              <div
+                                className="rounded-full"
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  backgroundColor: "red",
+                                }}
+                              ></div>
+                            </td>
+                            <td>
+                              <strong>Poor</strong>, hazardous for marine life
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div
+                                className="rounded-full"
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  backgroundColor: "yellow",
+                                }}
+                              ></div>
+                            </td>
+                            <td>
+                              <strong>Satisfactory</strong>, needs to be checked
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div
+                                className="rounded-full"
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  backgroundColor: "green",
+                                }}
+                              ></div>
+                            </td>
+                            <td>
+                              <td>
+                                <strong>Good</strong>, safe for marine life
+                              </td>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                     <div className="col-span-4 md:col-span-3">
                       <div className="pt-0 pb-0" style={{ height: "100vh" }}>
@@ -156,6 +213,7 @@ export default function Map() {
                           <CityMap
                             latitude={cityInfo.lat}
                             longitude={cityInfo.lon}
+                            sensorObj={sensorObj}
                           />
                         )}
                       </div>

@@ -1,30 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
-
-/* This example requires Tailwind CSS v2.0+ */
-const sensors = [
-  {
-    id: "1e4asd7asdbcc8",
-    city: "Raipur",
-    location: "New Raipur Shaitan gaali bhoot ghar",
-    installationDate: "24 March 2022",
-  },
-  {
-    id: "2esdfgdfdb433",
-    city: "Raipur",
-    location: "Old Raipur Shaitan gaali bhoot ghar",
-    installationDate: "28 March 2022",
-  },
-  {
-    id: "3e4asdsdsdbcc8",
-    city: "Raipur",
-    location: "Newest Raipur Shaitan gaali bhoot ghar",
-    installationDate: "23 March 2022",
-  },
-  // More sensors...
-];
+import api from "../api";
 
 export default function dashboard() {
+  const [sensors, setSensors] = useState([]);
+
+  useEffect(() => {
+    const JWT = sessionStorage.getItem("JWT");
+    const email = sessionStorage.getItem("email");
+    var temp = [];
+    api
+      .get(
+        `sensors/getsensormaintainer/?email=${email}`,
+
+        {
+          headers: { Authorization: "Bearer " + JWT },
+        }
+      )
+      .then((res) => {
+        for (var id in res.data) {
+          temp.push({
+            id: id,
+            city: res.data[id].city,
+            location: res.data[id].location,
+            installationDate: "23 March 2022",
+          });
+        }
+        setSensors(temp);
+      })
+      .catch((err) => console.log(err.response));
+  }, []);
   const [toggleForm, setToggleForm] = useState(false);
   const [newSensorData, setNewSensorData] = useState({
     id: "",
@@ -34,8 +39,26 @@ export default function dashboard() {
   });
   const handleClick = () => setToggleForm(!toggleForm);
   return (
-    <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="flex flex-col shadow-lg mx-5 my-5 px-3 py-3">
+      <div className="flex flex-row">
+        <img
+          src="https://www.w3schools.com/w3images/avatar6.png"
+          alt="avatar"
+          width={50}
+          height={40}
+          className="rounded-full mx-1"
+        />
+        <p className="font-bold text-gray-900 text-[2rem]">
+          Welcome to Dashboard
+        </p>
+      </div>
+      {/* <p
+        className="font-bold text-gray text-[1.6rem] py-2 px-2 mb-5"
+        style={{ borderLeft: "4px solid purple" }}
+      >
+        Your Sensors
+      </p> */}
+      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 my-5">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
@@ -109,14 +132,17 @@ export default function dashboard() {
           </div>
         </div>
       </div>
-      {toggleForm && <Form setData={setNewSensorData} data={newSensorData} />}
+
       <div className="p-10">
         <button
           onClick={handleClick}
-          className="inline-block text-center bg-indigo-600 border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-indigo-700"
+          className="inline-block text-center bg-indigo-600 border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-indigo-700 float-right"
         >
-          {toggleForm ? "Close" : "Add Sensor"}
+          {toggleForm ? "Close" : "Add New Sensor"}
         </button>
+      </div>
+      <div className="px-5 mx-5 my-5 ">
+        {toggleForm && <Form setData={setNewSensorData} data={newSensorData} />}
       </div>
     </div>
   );

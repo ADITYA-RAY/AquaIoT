@@ -1,10 +1,31 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import api from "../api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+  const handleLogin = () => {
+    if (!email || !password) {
+      alert("All fields must be filled");
+      return;
+    }
+    api
+      .post("users/login/", {
+        email,
+        password,
+      })
+      .then((res) => {
+        console.log(res);
+        sessionStorage.setItem("JWT", res.data.access);
+        sessionStorage.setItem("email", email);
+        router.push("/dashboard");
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <div
@@ -22,7 +43,7 @@ export default function Login() {
               Sign in as a maintainer
             </h2>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -89,7 +110,7 @@ export default function Login() {
 
             <div>
               <button
-                type="submit"
+                onClick={handleLogin}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">

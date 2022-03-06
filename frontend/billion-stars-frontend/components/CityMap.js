@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import styles from "../styles/Map.module.css";
 
-export default function CityMap({ latitude, longitude }) {
+export default function CityMap({ latitude, longitude, sensorObj }) {
   mapboxgl.accessToken =
     "pk.eyJ1IjoicHJhbWlsMDEiLCJhIjoiY2wwY3MzaGxrMDI2aDNqcDlxcTY2ZHhjZCJ9.tBxkMn02CfdKVlWFVWm51Q";
   const mapContainer = useRef(null);
@@ -15,17 +15,33 @@ export default function CityMap({ latitude, longitude }) {
       center: [longitude, latitude],
       zoom: 12,
     });
-    const marker1 = new mapboxgl.Marker()
-      .setLngLat([81.605, 21.2497])
-      .setPopup(
-        new mapboxgl.Popup().setHTML("<h1>Humara clg jo khul nahi raha 😥</h1>")
-      )
-      .addTo(map.current);
+    console.log(sensorObj);
+    if (sensorObj === null) return;
+    for (var mark in sensorObj) {
+      let lat = sensorObj[mark].latitude;
+      let lan = sensorObj[mark].longitude;
+      let showData =
+        "temperature : " + sensorObj[mark].sensordata[0].temperature + "<br/>";
+      showData += "ph : " + sensorObj[mark].sensordata[0].ph + "<br/>";
+      showData += "tds : " + sensorObj[mark].sensordata[0].tds;
+      const color = setColor({
+        temperature: sensorObj[mark].sensordata[0].temperature,
+        ph: sensorObj[mark].sensordata[0].ph,
+        tds: sensorObj[mark].sensordata[0].tds,
+      });
+      const marker1 = new mapboxgl.Marker({ color })
+        .setLngLat([lan, lat])
+        .setPopup(new mapboxgl.Popup().setHTML(`<h1>${showData}</h1>`))
+        .addTo(map.current);
+    }
+  }, [latitude, longitude, sensorObj]);
 
-    const marker2 = new mapboxgl.Marker({ color: "black", rotation: 45 })
-      .setLngLat([81.646, 21.249])
-      .addTo(map.current);
-  });
+  const setColor = ({ temperature, ph, tds }) => {
+    if (ph > 5 && ph < 9 && temperature < 45 && tds < 500) return "green";
+    else if (ph > 4 && ph < 11 && temperature < 50 && tds < 600)
+      return "yellow";
+    else return "red";
+  };
   return (
     <div className={styles.container}>
       <div>
