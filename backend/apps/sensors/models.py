@@ -1,3 +1,4 @@
+from xmlrpc.client import DateTime
 from django.db import models
 from ..users.models import Maintainer
 import uuid
@@ -24,5 +25,6 @@ class SensorData(models.Model):
     ph = models.DecimalField(max_digits=4, decimal_places=2)
     temperature = models.DecimalField(max_digits=6, decimal_places=2)
     tds = models.DecimalField(max_digits=5, decimal_places=2)
+    data_datetime = models.DateTimeField(default=get_ist_time)
     def __str__(self):
         return str(self.sensor.sensorID)
