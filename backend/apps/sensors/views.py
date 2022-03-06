@@ -11,6 +11,7 @@ from ..users.models import Maintainer
 from .serializers import SensorDataSerializer, SensorRegistrationSerializer
 from .models import Sensors, SensorData
 
+
 class RegisterSensor(generics.CreateAPIView):
     permission_classes = (IsAuthenticated, )
     def post(self, request):
@@ -18,15 +19,15 @@ class RegisterSensor(generics.CreateAPIView):
         if serializer.is_valid(raise_exception=True):
             m = Maintainer.objects.get(email=request.data['email'])
             obj = serializer.save(maintainer=m)
-
+            obj.save()
             return Response({'Status' : 'Success', 'UUID' : obj.sensorID}, status=status.HTTP_201_CREATED)
         else:
             return Response({'Status' : 'Missing Parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetSensorData(APIView):
     def get(self, request):
-        if request.data['city']:
-            sensorlist = Sensors.objects.filter(city=request.data['city'])
+        if request.GET.get('city'):
+            sensorlist = Sensors.objects.filter(city=request.GET.get('city'))
             if not sensorlist.exists():
                 return Response({'Status' : 'No sensors present in this city'}, status=status.HTTP_200_OK)
             res_dict = {}
@@ -39,6 +40,7 @@ class GetSensorData(APIView):
                     'city' : sensor.city,
                     'latitude' : sensor.latitude,
                     'longitude' : sensor.longitude,
+                   # 'installation_date' : sensor.installation_date,
                 }
                 print(sensordatadict)
                 sensorloc.update({'sensordata' : list(sensordatadict)})
@@ -50,7 +52,7 @@ class GetSensorData(APIView):
 class GetSensorMaintainer(APIView):
     permission_classes = (IsAuthenticated, )
     def get(self, request):
-        email = request.data['email']
+        email = request.GET.get('email')
         m = Maintainer.objects.get(email=email)
         sensorlist = Sensors.objects.filter(maintainer=m)
         if not sensorlist.exists():
