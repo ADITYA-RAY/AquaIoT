@@ -1,14 +1,19 @@
+from xmlrpc.client import DateTime
 from django.db import models
 from ..users.models import Maintainer
 import uuid
+from datetime import datetime, timedelta
 
+
+def get_ist_time():
+    return datetime.now() + timedelta(hours=5, minutes=30)
 
 
 class Sensors(models.Model):
     maintainer = models.ForeignKey(Maintainer, on_delete=models.CASCADE, null=False)
     sensorID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    latitude = models.DecimalField(max_digits=8, decimal_places=6, null=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    latitude = models.DecimalField(max_digits=8, decimal_places=6, default=0.0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
     location = models.TextField()
     city = models.TextField()
 
@@ -20,6 +25,6 @@ class SensorData(models.Model):
     ph = models.DecimalField(max_digits=4, decimal_places=2)
     temperature = models.DecimalField(max_digits=6, decimal_places=2)
     tds = models.DecimalField(max_digits=5, decimal_places=2)
-
+    data_datetime = models.DateTimeField(default=get_ist_time)
     def __str__(self):
         return str(self.sensor.sensorID)
