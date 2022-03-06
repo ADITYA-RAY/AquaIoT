@@ -1,4 +1,4 @@
-# **Team billionstars | HackNitrr**
+# **Team billionstars | HackNitrr** :briefcase:
 
 ## Problem Statement :
 Disposal of waste water from the industries is one of the biggest issues in the modern industrial world. This leads to pollution of water bodies and endangers the aquatic life. Factories and industries need to ensure that the effluents disposed off into these water bodies are first purified and the various risk factors are mild down as much as possible. 
