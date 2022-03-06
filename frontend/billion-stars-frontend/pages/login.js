@@ -128,7 +128,7 @@ export default function Login() {
                   className="font-medium text-white hover:text-indigo-500"
                   style={{ cursor: "pointer" }}
                 >
-                  Don't have an account? Register here
+                  Dont have an account? Register here
                 </div>
               </Link>
             </div>

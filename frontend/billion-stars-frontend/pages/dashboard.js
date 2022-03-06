@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Form from "../components/Form";
 import api from "../api";
 
-export default function dashboard() {
+export default function Dashboard() {
   const [sensors, setSensors] = useState([]);
 
   useEffect(() => {

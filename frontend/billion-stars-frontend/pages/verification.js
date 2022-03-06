@@ -80,7 +80,7 @@ export default function Verification() {
                           className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="first"
-                          maxlength="1"
+                          maxLength="1"
                           onChange={(e) => {
                             setOne(e.target.value);
                           }}
@@ -89,7 +89,7 @@ export default function Verification() {
                           className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="second"
-                          maxlength="1"
+                          maxLength="1"
                           onChange={(e) => {
                             setTwo(e.target.value);
                           }}
@@ -98,7 +98,7 @@ export default function Verification() {
                           className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="third"
-                          maxlength="1"
+                          maxLength="1"
                           onChange={(e) => {
                             setThree(e.target.value);
                           }}
@@ -107,7 +107,7 @@ export default function Verification() {
                           className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="fourth"
-                          maxlength="1"
+                          maxLength="1"
                           onChange={(e) => {
                             setFour(e.target.value);
                           }}
@@ -116,7 +116,7 @@ export default function Verification() {
                           className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="fifth"
-                          maxlength="1"
+                          maxLength="1"
                           onChange={(e) => {
                             setFive(e.target.value);
                           }}
@@ -125,7 +125,7 @@ export default function Verification() {
                           className="m-2 border h-10 w-10 text-center form-control rounded"
                           type="text"
                           id="sixth"
-                          maxlength="1"
+                          maxLength="1"
                           onChange={(e) => {
                             setSix(e.target.value);
                           }}

@@ -157,7 +157,7 @@ export default function Map() {
                         Index
                       </p>
                       <br />
-                      <table class="table-auto text-white">
+                      <table className="table-auto text-white">
                         <tbody>
                           <tr>
                             <td style={{ width: "50px" }}>
