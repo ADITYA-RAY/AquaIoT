@@ -45,6 +45,11 @@ Once connected to the server, the kit periodically sends its location (to ensure
 The frontend also provides analytics features in the form of graphs and charts so as to facilitate the reading and analysis of historical data.
 **(Note: As due to limitation of availability and high cost of metal and compound sensors, only sensors used for measurement of physical parameters, pH, TDS and temperature have been used, as an alternative for prototyping here.)**
 
+## Feasibility & Scalability:
+Good quality sensors last quite long. Thus, once installed, they need not be reinstalled soon. This makes them quite feasible to use. Also since the act of physically going and determining the composition of water is eliminated, it becomes more reliable. The sensors can be attached across wide range of area, this also makes our system scalable. 
+
+Government already spends a huge amount of money in cleaning of water bodies. Our system provides means of analysis and prevention of waste disposal, this will save a huge amount of money.
+
 ## Business Model / StartUp Potential  	:moneybag:
 We can design and distribute the PCBs to different governmental authorities for implementing this system. Also, since this system will help prevent pollution of river bodies which can cause huge economic overhead on the governemnt, our project will help save money. We would market our service to both public and private ventures. For the use of our cloud technologies, service fee can also be charged.
 
