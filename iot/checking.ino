@@ -1,46 +1,40 @@
 #include <SPI.h>
 #include <Ethernet.h>
 EthernetClient client;
-const char* ssid = "SSID"; 
-     // Name of the Host
-const char* password = "PASSWORD"; 
+const char* ssid = "SSID"; // Name of the Host
+const char* password = "PASSWORD";  // Password of the corresponding Host
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-     // Password of the corresponding Host
 const char* host = "https://domain.herokuapp.com/";
 const int httpPort = 80;
 const char* fingerprint = "968407df0b1cf65814dfd7333557519b154d8ce7";
 //queryString=String()+String()+String()+String();
 #define TdsSensorPin A3  //TDS sensor pin connected to pin A3 of the arduino
 #define VREF 5.0      // analog reference voltage(Volt) of the ADC
-#define SCOUNT  30           // sum of sample point
+#define SCOUNT  30      // sum of sample point
 int analogBuffer[SCOUNT];    // store the analog value in the array, read from ADC
 int analogBufferTemp[SCOUNT];
 int analogBufferIndex = 0,copyIndex = 0;
 float averageVoltage = 0,tdsValue = 0,temperature = 25;
-
-int tPin=5;
-    //negative side of the thermistor connected to pin A5
+int tPin=5;  //negative side of the thermistor connected to pin A5
 #define SensorPin 4   // the pH meter Analog output is connected to pin A4
-long randNumber;
-unsigned long int avgValue;  
-    //Storing the average value of the sensor feedback
+unsigned long int avgValue;   //Storing the average value of the sensor feedback
 float b;
 int buf[10],temp;
 void setup() 
 {
-  randomSeed(analogRead(0));
+  pinMode(13,OUTPUT);
+  pinMode(8,OUTPUT);
   Serial.begin(115200);
+  pinMode(TdsSensorPin,INPUT);
   while (!Serial) 
   {
     ;
   }
-  pinMode(TdsSensorPin,INPUT);
-  pinMode(13,OUTPUT);
   Serial.print("connecting to ");
   Serial.println(ssid);
   if (Ethernet.begin(mac) == 0) 
   {
-    Serial.println("Failed to obtaining an IP address using DHCP");
+    Serial.println("Failed to obtain an IP address using DHCP");
     while(true);
   }
   Serial.println("WiFi connected");
@@ -55,11 +49,10 @@ void setup()
     Serial.print("requesting URL: ");
     Serial.println(url);
    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + host + "\r\n" +
+               "Host: " + host + "\r\n"
                /*"User-Agent: BuildFailureDetectorESP8266\r\n"*/ +
                "Connection: close\r\n\r\n");
   }
-   
   Serial.println("request sent");
   while (client.connected()) 
   {
@@ -83,21 +76,22 @@ void setup()
   Serial.println("==========");
   Serial.println(line);
   Serial.println("==========");
-  Serial.println("closing connection");
+  Serial.println("closing connection");  
 }
 
 void loop() 
 {
+  digitalWrite(8,HIGH);
   float a = analogRead(tPin);
-     //the calculating formula of temperature
-  float resistor = ((1023.0*10000)/a)-10000;
+      //the calculating formula of temperature
+  float resistor = (1023.0*10000)/a-10000;
   float tempC = (3435.0/(log(resistor/10000)+(3435.0/(273.15+25)))) - 273.15;
   Serial.print("Temperature: ");
   Serial.print(tempC);
   Serial.println(" C");
   delay(1000);
-  
-       //pH code begins
+
+  //pH code begins
   for(int i=0;i<10;i++)  
       //Get 10 sample value from the sensor for smooth value
   { 
@@ -124,14 +118,12 @@ void loop()
   float phValue=(float)avgValue*5.0/1024/6; 
   phValue=3.5*phValue;
   Serial.print("pH:");
-  randNumber = random(6.5,8.5);
-  Serial.println(randNumber);
-  //Serial.print(phValue,2);
+  Serial.print(phValue,2);
   digitalWrite(13, HIGH);       
   delay(1000);
   digitalWrite(13, LOW); 
   delay(1000);
-  
+
   //tds code begins
   static unsigned long analogSampleTimepoint = millis();
    if(millis()-analogSampleTimepoint > 1000)    
@@ -160,9 +152,7 @@ void loop()
       //Serial.print(averageVoltage,2);
       //Serial.print("V   ");
       Serial.print("TDS Value:");
-      randNumber = random(145,150);
-      Serial.print(randNumber);
-      //Serial.print(tdsValue,0);
+      Serial.print(tdsValue,0);
       Serial.println("ppm");
    }
 }
