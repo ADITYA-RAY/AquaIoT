@@ -13,6 +13,24 @@ class MaintainerManager(UserManager):
         user.save()
         return user
     
+    def create_superuser(self, email, username='admin', password=None, **extra_fields):
+        if not email:
+            raise ValueError("User must have an email")
+        if not password:
+            raise ValueError("User must have a password")
+        if not username:
+            raise ValueError("User must have a username")
+
+        user = self.model(
+            email=self.normalize_email(email)
+        )
+        user.full_name = username
+        user.set_password(password)
+        user.admin = True
+        user.staff = True
+        user.active = True
+        user.save(using=self._db)
+        return user
 
 class Maintainer(AbstractUser):
 
@@ -22,7 +40,7 @@ class Maintainer(AbstractUser):
     email = models.EmailField(verbose_name="email_address", max_length=255, unique=True)
 
     is_verified = models.BooleanField(default=False)
-    expiration_time = models.DateTimeField()
+    expiration_time = models.DateTimeField(blank=True)
 
     otp_hex = models.TextField()
 
