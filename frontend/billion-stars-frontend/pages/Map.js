@@ -6,6 +6,7 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import CityMap from "../components/CityMap";
 
 import axios from "axios";
+import api from "../api";
 
 const cities = [
   {
@@ -20,18 +21,6 @@ const cities = [
     id: 3,
     name: "Prayagraj",
   },
-  {
-    id: 4,
-    name: "Amsterdam",
-  },
-  {
-    id: 5,
-    name: "Berlin",
-  },
-  {
-    id: 6,
-    name: "Delhi",
-  },
 ];
 
 function classNames(...classes) {
@@ -39,16 +28,27 @@ function classNames(...classes) {
 }
 
 export default function Map() {
-  const [selected, setSelected] = useState(cities[3]);
+  const [selected, setSelected] = useState(cities[0]);
   const [cityInfo, setCityInfo] = useState(null);
+  const [sensorObj, setSensorObj] = useState(null);
 
   const handleClick = () => {
+    //latitude longitude
     axios
       .get(
         `http://api.openweathermap.org/geo/1.0/direct?q=${selected.name}&limit=1&appid=61de9771b304e9d9cc581202de657234`
       )
       .then((res) => setCityInfo(res.data[0]))
       .catch((err) => console.log(err.response));
+
+    //sensor data
+    api
+      .get(`sensors/getsensordata/?city=${selected.name}`)
+      .then((res) => {
+        console.log(res.data);
+        if (!("status" in res.data)) setSensorObj(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -156,6 +156,7 @@ export default function Map() {
                           <CityMap
                             latitude={cityInfo.lat}
                             longitude={cityInfo.lon}
+                            sensorObj={sensorObj}
                           />
                         )}
                       </div>
