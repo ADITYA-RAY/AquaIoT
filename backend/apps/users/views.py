@@ -31,13 +31,13 @@ class RegisterMaintainer(generics.CreateAPIView):
                 otp = ''.join(secrets.choice(
                     string.ascii_uppercase + string.digits) for i in range(6))
                 hs = hashlib.sha256(otp.encode('utf-8'))
-                request.data._mutable = True
-                request.data['otp_hex'] = hs.hexdigest()
-                request.data['expiration_time'] = datetime.now() + timedelta(minutes=5)
                 serializer.create(request.data)
+                otp_hex = hs.hexdigest()
+                expiration_time = datetime.now() + timedelta(minutes=5)
+                serializer.method(expiration_time=expiration_time, otp_hex=otp_hex)
                 send_mail('OTP for your information update', 'Your OTP for information update is ' + otp +
                         '\nThis OTP is valid for the next 5 minutes', settings.EMAIL_HOST_USER, [email_add], fail_silently=False)
-                return Response({'OTP Hex' : hs.hexdigest()}, status=status.HTTP_201_CREATED)
+                return Response({'Status' : 'Success'}, status=status.HTTP_201_CREATED)
             return Response({'Status' : 'Invalid Query'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             if Maintainer.objects.get(email=request.data['email']).is_verified:
@@ -53,7 +53,6 @@ class RegisterMaintainer(generics.CreateAPIView):
                 email_add = request.data['email']
                 otp = ''.join(secrets.choice(
                     string.ascii_uppercase + string.digits) for i in range(6))
-                print(otp)
                 hs = hashlib.sha256(otp.encode('utf-8'))
                 maintainer.otp_hex = hs.hexdigest()
                 maintainer.save()

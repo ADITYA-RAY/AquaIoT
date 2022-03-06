@@ -20,6 +20,8 @@ export default function Login() {
       })
       .then((res) => {
         console.log(res);
+        sessionStorage.setItem("JWT", res.data.access);
+        sessionStorage.setItem("email", email);
         router.push("/dashboard");
       })
       .catch((err) => console.log(err));

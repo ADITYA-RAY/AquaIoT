@@ -1,30 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
-
-/* This example requires Tailwind CSS v2.0+ */
-const sensors = [
-  {
-    id: "1e4asd7asdbcc8",
-    city: "Raipur",
-    location: "New Raipur Shaitan gaali bhoot ghar",
-    installationDate: "24 March 2022",
-  },
-  {
-    id: "2esdfgdfdb433",
-    city: "Raipur",
-    location: "Old Raipur Shaitan gaali bhoot ghar",
-    installationDate: "28 March 2022",
-  },
-  {
-    id: "3e4asdsdsdbcc8",
-    city: "Raipur",
-    location: "Newest Raipur Shaitan gaali bhoot ghar",
-    installationDate: "23 March 2022",
-  },
-  // More sensors...
-];
+import api from "../api";
 
 export default function dashboard() {
+  const [sensors, setSensors] = useState([]);
+
+  useEffect(() => {
+    const JWT = sessionStorage.getItem("JWT");
+    const email = sessionStorage.getItem("email");
+    var temp = [];
+    api
+      .get(
+        `sensors/getsensormaintainer/?email=${email}`,
+
+        {
+          headers: { Authorization: "Bearer " + JWT },
+        }
+      )
+      .then((res) => {
+        for (var id in res.data) {
+          temp.push({
+            id: id,
+            city: res.data[id].city,
+            location: res.data[id].location,
+            installationDate: "23 March 2022",
+          });
+        }
+        setSensors(temp);
+      })
+      .catch((err) => console.log(err.response));
+  }, []);
   const [toggleForm, setToggleForm] = useState(false);
   const [newSensorData, setNewSensorData] = useState({
     id: "",
