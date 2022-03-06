@@ -88,19 +88,23 @@ class VerifyOTP(generics.CreateAPIView):
 class LoginView(TokenObtainPairView):
     
     def post(self, request):
-        if not request.data['email']:
+        if not request.data['email'] or not request.data['password']:
             return Response('Invalid Query', status=status.HTTP_400_BAD_REQUEST)
         try: 
             m = Maintainer.objects.get(email=request.data['email'])
+
         except:
             return Response({'Status' : 'User not registered'}, status=status.HTTP_403_FORBIDDEN)
         if m.is_verified:
-            refresh = RefreshToken.for_user(m)            
-            tokens = {
-                'refresh' : str(refresh),
-                'access' : str(refresh.access_token)
-            }
-            return Response(tokens, status=status.HTTP_201_CREATED)
+            if m.check_password(request.data['password']):
+                refresh = RefreshToken.for_user(m)            
+                tokens = {
+                    'refresh' : str(refresh),
+                    'access' : str(refresh.access_token)
+                }
+                return Response(tokens, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'Status' : 'Password invalid'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response('The user is not verified', status=status.HTTP_401_UNAUTHORIZED)
 
