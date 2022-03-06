@@ -2,9 +2,16 @@ import React from "react";
 import api from "../api";
 const Form = ({ data, setData }) => {
   const handleClick = () => {
-    setData({ id: "", city: "", location: "", installationDate: "" });
+    setData({ city: "", location: "" });
+    console.log(data);
+    data["email"] = sessionStorage.getItem("email");
+
+    const JWT = sessionStorage.getItem("JWT");
+
     api
-      .post("sensor/registersensor/", data)
+      .post("sensors/registersensor/", data, {
+        headers: { Authorization: "Bearer " + JWT },
+      })
       .then((res) => {
         console.log(res.data);
         if (res.status === 200) {
@@ -25,7 +32,7 @@ const Form = ({ data, setData }) => {
         <div className="shadow overflow-hidden sm:rounded-md">
           <div className="px-4 py-5 bg-white sm:p-6">
             <div className="grid grid-cols-6 gap-6">
-              <div className="col-span-6 sm:col-span-4">
+              {/* <div className="col-span-6 sm:col-span-4">
                 <label
                   htmlFor="SensorId"
                   className="block text-sm font-medium text-gray-700"
@@ -60,7 +67,7 @@ const Form = ({ data, setData }) => {
                   autoComplete="off"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
-              </div>
+              </div> */}
               <div className="col-span-6 sm:col-span-3">
                 <label
                   htmlFor="city"
